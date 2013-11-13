@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common2.css" rel="stylesheet" type="text/css"> 
+<link href="{$template_path}/css/form.css" rel="stylesheet" type="text/css"> 
+<link href="{$template_path}/css/jquery_cbox.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.colorbox-min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/utils.min.js" type="text/javascript"></script>
+</head>
+<body>
+<!--header start-->
+<div class="header" id="header">
+     <div class="logo_area">       
+     <div class="wrapper">         
+     <img alt="{$_SC.site_name}" onclick="javascript:location.href='/'" src="{$template_path}/images/logo.png">
+     <span class="hd_login_info">              
+                  </span>
+        <div class="logo_notify_list none" id="headNotifyList">         </div>
+     </div>     
+     </div>
+     
+</div>
+<!--header end-->
+
+<!--container start-->
+<div class="container" id="main">
+   <div class="containerBox boxIndex">
+   <div class="rn-box check-box" style="display: block;">
+        <form id="form-invite_code">      
+        <div class="frm">
+             <div class="frm-hd">
+              <h3 class="frm-t">请填写以下您的信息，我们的客服会在跟您联络后，把邀请码发送到您的手机。</h3>
+                <p class="frm-tip">  </p>
+                  <p></p>
+              </div>
+              <div class="frm-nav">
+
+                
+                <div id="regKindBody"> <div class="frm-bd mp-reg-person">   
+                <div class="frm-section">     <div class="section-bd">
+
+                <div class="group frm-control-group extra" id="email_group">         
+                <label select="option" class="frm-control-label" for="">邮箱</label>
+                     <div class="frm-controls">
+                     <input type="text" class="frm-controlM" placeholder="" id="email" name="email" value="">
+                     <span id="email_notice" class="desc">&nbsp;</span>
+                     </div>
+                </div>
+
+                
+                <div class="group frm-control-group extra" id="name_group">         
+                <label select="option" class="frm-control-label" for="">姓名</label>
+                     <div class="frm-controls">
+                     <input type="text" class="frm-controlM" placeholder="" id="fullname" name="fullname" value="">
+                     <span id="fullname_notice" class="desc">&nbsp;</span>
+                     </div>
+                </div>
+
+
+                <div class="group frm-control-group extra" id="corp_group">         
+                <label select="option" class="frm-control-label" for="">公司</label>
+                     <div class="frm-controls">
+                     <input type="text" class="frm-controlM" placeholder="" id="corp" name="corp" value="">
+                     <span id="corp_notice" class="desc">&nbsp;</span>
+                     </div>
+                </div>
+
+                <div class="group frm-control-group extra" id="mobile_group">         
+                <label select="option" class="frm-control-label" for="">手机号</label>
+                     <div class="frm-controls">
+                     <input type="text" class="frm-controlM" placeholder="" id="mobile" name="mobile" value="">
+                     <span id="mobile_notice" class="desc">&nbsp;</span>
+                     </div>
+                </div>              
+                
+                
+                     </div>   </div> </div> </div>
+                     <div class="frm-ft">
+                         <div class="frm-opr">
+                             <a class="btnGreen" id="form-submit" href="javascript:;">继续</a>
+                             <input type="hidden" name="backurl" value="{$backurl}" />
+                             <input type="hidden" name="_submit" id="_submit" value="submit" />
+                             <input type="hidden" name="formhash" value="{$formhash}" />
+                             <input type="hidden" name="ac" value="buildcode" />
+                         </div>
+                     </div>
+              </div></div>  
+             </form>    
+   </div>
+</div>
+</div>
+<!--container end-->
+
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end-->
+
+<script>
+
+$('#form-submit').click(function(){
+if(check_submit()){
+$('#form-invite_code').attr('method','post');
+$('#form-invite_code').attr('action','invite_code.php');
+$('#form-invite_code').submit();
+}
+});
+
+function check_submit()
+{
+    var submit_disabled = false;
+
+	if(!check_email()){
+	  submit_disabled = true;
+	}
+
+	if(!check_fullname()){
+	  submit_disabled = true;
+	}
+
+	if(!check_corp()){
+	  submit_disabled = true;
+	}
+	
+	if(!check_mobile()){
+	  submit_disabled = true;
+	}
+	
+    if ( submit_disabled )
+    {
+        return false;
+    }
+	else{
+        return true;
+	}	
+}
+
+function check_email(){
+  var submit_disabled = false;	
+  email=$('#email').val();
+  if (email == '')
+  {
+    $('#email_notice').html("邮箱不能为空");
+    submit_disabled = true;
+  }
+  else if (!Utils.isEmail(email))
+  {
+    $('#email_notice').html("请填写正确的邮箱");
+    submit_disabled = true;
+  }else{
+  var checkurl = 'invite_code.php';
+  $.ajax({
+         type:'POST',
+	     dataType:'json',
+         url: checkurl,
+         data:'ac=check_email&email='+email,
+         async: false,
+         success:function(json){
+            if ( json.err == 0 )
+            {
+                $('#email_notice').html('可以申请');
+            }
+            else
+            {
+                $('#email_notice').html('该邮箱已经被注册');
+                submit_disabled = true;
+            }
+  }}); 	  
+  }
+
+    if ( submit_disabled )
+    {
+        return false;
+    }
+	else{
+        return true;
+	}	  	
+}
+
+function check_fullname(){
+  fullname=$('#fullname').val();
+  if ( fullname.length < 2)
+  {
+        $('#fullname_notice').html('姓名不能少于2个字');
+		$('#fullname').focus();
+		return false;
+  }else if(fullname.length>15 )
+  {
+        $('#fullname_notice').html('姓名不能多于15个字');
+		$('#fullname').focus();
+		return false;
+  }
+  else
+  {
+      $('#fullname_notice').html('OK');
+      return true;
+  }
+}
+
+function check_corp(){
+  corp=$('#corp').val();
+  if ( corp.length<1)
+  {
+        $('#corp_notice').html('所在公司必须填写');
+		$('#corp').focus();
+		return false;
+  }
+  else
+  {
+      $('#corp_notice').html('OK');
+      return true;
+  }
+}
+
+function check_mobile(){
+  mobile=$('#mobile').val();
+  if (mobile == '')
+  {
+    $('#mobile_notice').html("手机号不能为空");
+    $('#mobile').focus();
+    return false;
+  }
+  else if (!Utils.isMobile(mobile))
+  {
+    $('#mobile_notice').html("请按手机格式填写");
+    $('#mobile').focus();
+    return false;
+  }
+  else
+  {
+      $('#mobile_notice').html('OK');
+      return true;
+  }
+}
+</script>
+</body></html>

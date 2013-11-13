@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/form.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/jquery_cbox.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.colorbox-min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.upload.js" type="text/javascript"></script>
+<script src="{$template_path}/script/utils.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/region.js" type="text/javascript"></script>
+</head>
+<body>
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end--> 
+
+<!--container start-->
+<div class="container" id="main">
+	<div class="containerBox">
+		<div class="boxHeader">
+			<h2>&nbsp;&nbsp;</h2>
+		</div>
+		<div class="content">
+			<div class="newTips"> <a href=""> <span id="newMsgNum">0</span>条新消息，点击查看 </a> </div>
+			<!--right-->
+			
+			<div class="containerBox boxIndex">
+				<div class="rn-box check-box" style="display: block;">
+					<form id="form-editmember">
+						<div class="frm">
+							<div class="frm-hd">
+								<h3 class="frm-t">编辑成员的资料</h3>
+								<p class="frm-tip"> </p>
+								<p></p>
+							</div>
+							<div class="frm-nav">
+								<div id="regKindBody">
+									<div class="frm-bd mp-reg-person">
+										<div class="frm-section">
+											<div class="section-bd">
+												<div class="group frm-control-group extra" id="weixin_group">
+													<label select="option" class="frm-control-label" for="">微信号</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="weixin" name="weixin" value="{$profile.weixin}">
+														<span id="weixin_notice" class="desc">&nbsp;</span> </div>
+												</div>
+												<div class="group frm-control-group extra" id="name_group">
+													<label select="option" class="frm-control-label" for="">姓名</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="fullname" name="fullname" value="{$profile.fullname}">
+														<span id="fullname_notice" class="desc">如果名字包含分隔号“·”，请勿省略。</span> </div>
+												</div>
+												<div class="group frm-control-group extra" id="mobile_group">
+													<label select="option" class="frm-control-label" for="">手机号</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="mobile" name="mobile" value="{$profile.mobile}">
+														<span id="mobile_notice" class="desc">&nbsp;</span> </div>
+												</div>
+												<div class="group frm-control-group extra" id="gender_group">
+													<label select="option" class="frm-control-label" for="">性别</label>
+													<div class="frm-controls">
+														<input type="radio" value="1" name="gender" {if $profile.gender_id eq 1}checked{/if} />
+														男&nbsp;&nbsp;
+														<input type="radio" value="0" name="gender" {if $profile.gender_id eq 0}checked{/if} />
+														女 <span id="gender_notice" class="desc">&nbsp;</span> </div>
+												</div>
+												
+												<div class="group frm-control-group extra" id="region_group">
+													<label select="option" class="frm-control-label" for="">地区</label>
+													<div class="frm-controls"> <span id="region"><span style="margin:10px auto;padding:2px"> {$profile.country}&nbsp;&nbsp;{$profile.province}&nbsp;&nbsp;{$profile.city}&nbsp;&nbsp;{$profile.district}</span>
+														<input type="button" id="region_select" value="重选地区"  class="btnGrayS" />
+														<input name="country" type="hidden" value="{$profile.country_id}" />
+														<input name="province" type="hidden" value="{$profile.province_id}" />
+														<input name="city" type="hidden" value="{$profile.city_id}" />
+														<input name="district" type="hidden" value="{$profile.district_id}" />
+														</span> <span id="region_notice" class="desc">&nbsp;</span> </div>
+												</div>
+												<div class="group frm-control-group id-area" id="idPicPath_person_id_group">
+													<label class="frm-control-label" for="">头像</label>
+													<div class="frm-controls file-control">
+														<input id="avator" name="avator" value="{$profile.avator_file}" type="hidden" />
+														<span class="id-pic-holder" id="avator_notice"><img class="id-pic" src="{$profile.avator}"></span> <span select="option" class="desc">支持.jpg .jpeg .bmp .gif格式照片，大小不超过5M。</span>
+														<div class="id-area-c">
+															<button class="btnGrayS inline" id="select_file" href="#inline_content">选择文件</button>
+														</div>
+													</div>
+												</div>
+												
+												<div class="group frm-control-group extra" id="password_group">
+													<label select="option" class="frm-control-label" for="">子系统密码</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="password" name="password" value="">
+														<span id="password_notice" class="desc">&nbsp;</span> </div>
+												</div>																								
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="frm-ft">
+									<div class="frm-opr"> <a class="btnGreen" id="form-submit" href="javascript:;">确认修改</a>&nbsp;&nbsp;<a class="btnGray" id="delete-member" href="javascript:;">删除成员</a>
+										<input type="hidden" name="backurl" value="{$backurl}" />
+										<input type="hidden" name="_submit" id="_submit" value="submit" />
+										<input type="hidden" id="uid" name="uid" value="{$profile.uid}" />
+										<input type="hidden" name="formhash" value="{$formhash}" />
+										<input type="hidden" name="ac" value="editmember" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--end right-->
+		
+		<div class="sideBar">
+			<div class="catalogList">
+				<ul class="shaixuan">
+					<li class=""> <a href="member.php">成员管理</a> </li>
+					<li class=""> <a href="member.php?ac=add">添加成员</a> </li>
+				</ul>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</div>
+</div>
+<!--container end--> 
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end--> 
+
+<script>
+$('#region_select').click(function(){	
+var str='<select name="country" id="country" onchange="region.changed(this, 1, \'province\')" style=" margin:10px auto;padding:2px;display:none;"><option value="0" selected="selected">请选择国家</option><option value="1">中国</option></select>'+
+      '<select name="province" id="province" onchange="region.changed(this, 2, \'city\')" style="width:100px" class="info_input"><option value="0">请选择省</option></select>'+
+      '<select name="city" id="city" onchange="region.changed(this, 3, \'district\')" style="width:100px" class="info_input"><option value="0">请选择市</option></select>'+
+      '<select name="district" id="district" style="width:100px" class="info_input"><option value="0">请选择区</option></select>';
+$('#region').html(str);
+$('#country').val(1);
+$('#country').change();
+});
+$('#form-submit').click(function(){
+if(check_submit()){
+$('#form-editmember').attr('method','post');
+$('#form-editmember').attr('action','member.php');
+$('#form-editmember').submit();
+}
+});
+
+function check_submit()
+{
+    var submit_disabled = false;
+
+
+	if(!check_weixin()){
+	  submit_disabled = true;
+	}
+
+	if(!check_fullname()){
+	  submit_disabled = true;
+	}
+
+	if(!check_country()){
+	  submit_disabled = true;
+	}
+
+	if(!check_province()){
+	  submit_disabled = true;
+	}
+
+	if(!check_city()){
+	  submit_disabled = true;
+	}
+
+	if(!check_district()){
+	  submit_disabled = true;
+	}
+
+	if(!check_mobile()){
+	  submit_disabled = true;
+	}
+	
+	if(!check_pwd()){
+	  submit_disabled = true;	
+	}
+	
+    if ( submit_disabled )
+    {
+        return false;
+    }
+	else{
+        return true;
+	}	
+}
+
+function check_fullname(){
+  fullname=$('#fullname').val();
+  if ( fullname.length < 2)
+  {
+        $('#fullname_notice').html('姓名不能少于2个字');
+		$('#fullname').focus();
+		return false;
+  }else if(fullname.length>15 )
+  {
+        $('#fullname_notice').html('姓名不能多于15个字');
+		$('#fullname').focus();
+		return false;
+  }
+  else
+  {
+      $('#fullname_notice').html('OK');
+      return true;
+  }
+}
+
+function check_weixin(){
+  weixin=$('#weixin').val();
+  if ( weixin.length < 3)
+  {
+        $('#weixin_notice').html('微信号不能少于3个字');
+		$('#weixin').focus();
+		return false;
+  }else if(weixin.length>50 )
+  {
+        $('#weixin_notice').html('姓名不能多于50个字');
+		$('#weixin').focus();
+		return false;
+  }
+  else
+  {
+      $('#weixin_notice').html('OK');
+      return true;
+  }
+}
+
+function check_pwd(){
+  pass=$('#password').val();
+  if(pass.length>0 &&	pass.length<6){
+	$('#password_notice').html('密码不能少于6位个字');
+    $('#password').focus();
+	return false;  
+  }else if(pass.length>15){
+	$('#password_notice').html('密码不能多于15位个字');
+    $('#password').focus();
+  }else{
+    $('#password_notice').html('OK');
+    return true;
+  }
+	
+}
+
+function check_corp(){
+  corp=$('#corp').val();
+  if ( corp.length<1)
+  {
+        $('#corp_notice').html('所属公司必须填写');
+		$('#corp').focus();
+		return false;
+  }
+  else
+  {
+      $('#corp_notice').html('OK');
+      return true;
+  }
+}
+
+function check_lawyer_num(){
+  lawyer_num=$('#lawyer_num').val();
+  if ( lawyer_num.length<1)
+  {
+        $('#lawyer_num_notice').html('执业证号必须填写');
+		$('#lawyer_num').focus();
+		return false;
+  }
+  else
+  {
+      $('#lawyer_num_notice').html('OK');
+      return true;
+  }
+}
+
+
+function check_country(){
+  country=$('#country').val();
+  if ( country==0)
+  {
+        $('#region_notice').html('请选择国家');
+		return false;
+  }
+  else
+  {
+      $('#region_notice').html('OK');
+      return true;
+  }
+}
+
+function check_province(){
+  province=$('#province').val();
+  if ( province==0)
+  {
+        $('#region_notice').html('请选择省');
+		return false;
+  }
+  else
+  {
+      $('#region_notice').html('OK');
+      return true;
+  }
+}
+
+function check_city(){
+  city=$('#city').val();
+  if ( city==0)
+  {
+        $('#region_notice').html('请选择城市');
+		return false;
+  }
+  else
+  {
+      $('#region_notice').html('OK');
+      return true;
+  }
+}
+
+function check_district(){
+  district=$('#district').val();
+  if ( district==0)
+  {
+        $('#region_notice').html('请选择区县');
+		return false;
+  }
+  else
+  {
+      $('#region_notice').html('OK');
+      return true;
+  }
+}
+
+function check_mobile(){
+  mobile=$('#mobile').val();
+  if (mobile == '')
+  {
+    $('#mobile_notice').html("手机号不能为空");
+    $('#mobile').focus();
+    return false;
+  }
+  else if (!Utils.isMobile(mobile))
+  {
+    $('#mobile_notice').html("请按手机格式填写");
+    $('#mobile').focus();
+    return false;
+  }
+  else
+  {
+      $('#mobile_notice').html('OK');
+      return true;
+  }
+}
+
+$('#delete-member').click(function(){
+	if(confirm('确定要删除这位成员吗?')){
+	   $.post('member.php',{ac:'delmember',uid:$('#uid').val()},function(){
+		   window.location.href='member.php';
+	   });
+	}
+	
+});
+
+</script>
+<div style='display:none'>
+	<div id='inline_content' style='padding:10px; background:#fff;'>
+		<h2>选择头像文件</h2>
+		<p>选择文件:
+			<input type="file" id="file1" name="file1" style="width:300" value="">
+		</p>
+		<p>
+			<input type="button" id="beginupload" name="beginupload" value="开始上传" class="form-button" />
+		</p>
+		<p id="popdiv_msg"></p>
+	</div>
+</div>
+<script>
+$(".inline").colorbox({inline:true, width:"50%",height:"400px"});
+
+	$('#beginupload').click(function() {
+      if($('#file1').val()!=''){									 
+      $('#file1').upload('member.php?ac=upload_avator', function(json) {
+		   if(json.err==0){
+		     $('#avator').val(json.filename);
+			 $('#avator_notice').html('<img src="/uploads/avators/'+json.filename+'" />');
+			 $("#inline_content").colorbox.close();
+		   }else{
+			 $('#popdiv_msg').html(json.msg);  
+		   }
+      }, 'json');
+	  }else{
+			 $('#popdiv_msg').html('必须选择一个图文件');  
+	  }
+    });
+</script>
+</body>
+</html>

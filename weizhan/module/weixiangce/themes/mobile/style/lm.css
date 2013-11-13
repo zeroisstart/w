@@ -1,0 +1,6 @@
+.LM-card, .LM-tab {
+	display: none;
+}
+.LM-card.cur, .LM-tab.cur {
+	display: block;
+}

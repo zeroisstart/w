@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/form.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/jquery_cbox.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/utils.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.colorbox-min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.upload.js" type="text/javascript"></script>
+<script src="{$template_path}/script/WebCalendar.js" type="text/javascript"></script>
+<script src="{$template_path}/ueditor/ueditor.config.js" type="text/javascript"></script>
+<script src="{$template_path}/ueditor/ueditor.all.min.js" type="text/javascript"></script>
+</head>
+<body>
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end--> 
+<style>
+.cover-area {
+	margin-left:120px;
+    max-width: 297px;
+    padding: 0;
+    width: 297px;
+}
+.msg-input, .cover-area, .msg-txta {
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    color: #666666;
+    max-width: 280px;
+    padding: 2px 8px;
+    width: 280px;
+}
+.cover-hd {
+    padding: 2px 8px 3px;
+    position: relative;
+}
+.cover-hd .upload-btn {
+    background-position: 0 -251px;
+    color: #666666;
+    display: inline-block;
+    line-height: 28px;
+    margin-right: 12px;
+}
+.oh {
+    overflow: hidden;
+}
+
+
+</style>
+<!--container start-->
+<div class="container" id="main">
+	<div class="containerBox">
+		<div class="boxHeader">
+			<h2>&nbsp;&nbsp;</h2>
+		</div>
+		<div class="content">
+			<div class="newTips"> <a href=""> <span id="newMsgNum">0</span>条新消息，点击查看 </a> </div>
+			<div class="containerBox boxIndex">
+				<div class="rn-box check-box" style="display: block;">
+					<form id="form-profile">
+						<div class="frm">
+							<div class="frm-hd">
+								<h3 class="frm-t">内容设置</h3>
+								<p class="frm-tip"> </p>
+								<p></p>
+							</div>
+							<div class="frm-nav">
+								<div id="regKindBody">
+									<div class="frm-bd mp-reg-person">
+										<div class="frm-section">
+											
+											{foreach from=$_WZ.profile item=p} 
+											   {if $p.type eq 'text'}
+												<div class="group frm-control-group extra" id="{$p.var}_{$p.id}_group">
+													<label select="option" class="frm-control-label" for="">{$p.title}</label>																						    													<div class="frm-controls">
+														  <input type="text" class="frm-controlM" placeholder="" name="{$p.var}[{$p.id}]" value="{$p.value}">
+														  <span id="{$p.var}_{$p.id}_notice" class="desc">&nbsp;</span>
+														</div>
+												</div>
+											   {/if}
+											   {if $p.type eq 'pic'}
+												<div class="group frm-control-group extra" id="{$p.var}_{$p.id}_group">
+													<label select="option" class="frm-control-label" for="">{$p.title}</label>																						    													<div class="cover-area">
+                                                              <div class="oh z cover-hd">
+                                                                  <a class="icon28C upload-btn cboxElement" data-id="{$p.var}_{$p.id}" href="#inline_content">上传</a>
+                                                              </div>
+															  <input type="hidden" class="frm-controlM" placeholder="" id="{$p.var}_{$p.id}" name="{$p.var}[{$p.id}]" value="{$p.value}">
+                                                        </div>
+														<span id="{$p.var}_{$p.id}_notice" class="desc">&nbsp;</span>
+														<div><img id="{$p.var}_{$p.id}_img" src="{$p.value}" /></div>
+														
+												</div>
+											   {/if}
+											   
+											   {if $p.type eq 'content'}
+												<div class="group frm-control-group extra" id="{$p.var}_{$p.id}_group">
+													<label select="option" class="frm-control-label" for="">{$p.title}</label>
+													<div class="frm-controls">
+														<textarea name="{$p.var}[{$p.id}]" id="{$p.var}_{$p.id}" style="height:300px;">{$p.value}</textarea>
+														<span id="{$p.var}_{$p.id}_notice" class="desc">&nbsp;</span> </div>
+												</div>
+											   {/if}
+											   
+											   {if $p.type eq 'subbtn'}
+												<div class="group frm-control-group extra" id="{$p.var}_{$p.id}_group">
+													<label select="option" class="frm-control-label" for="">{$p.title}</label>																				    												<span id="{$p.var}_{$p.id}_notice" class="desc">&nbsp;</span>
+												</div>
+												{foreach from=$p.son item=s}
+											   {if $s.type eq 'text'}
+												<div class="group frm-control-group extra" id="{$s.var}_{$s.id}_group">
+													<label select="option" class="frm-control-label" for="">{$s.title}</label>																						    													<div class="frm-controls">
+														  <input type="text" class="frm-controlM" placeholder="" name="{$s.var}[{$s.id}]" value="{$s.value}">
+														  <span id="{$s.var}_{$s.id}_notice" class="desc">&nbsp;</span>
+														</div>
+												</div>
+											   {/if}
+											   {if $s.type eq 'pic'}
+												<div class="group frm-control-group extra" id="{$s.var}_{$s.id}_group">
+													<label select="option" class="frm-control-label" for="">{$s.title}</label>																						    													<div class="cover-area">
+                                                              <div class="oh z cover-hd">
+                                                                  <a class="icon28C upload-btn cboxElement" data-id="{$s.var}_{$s.id}" href="#inline_content">上传</a>
+                                                              </div>
+															  <input type="hidden" class="frm-controlM" placeholder="" id="{$s.var}_{$s.id}" name="{$s.var}[{$s.id}]" value="{$s.value}">
+                                                        </div>
+														<span id="{$s.var}_{$s.id}_notice" class="desc">&nbsp;</span>
+														<div><img id="{$s.var}_{$s.id}_img" src="{$s.value}" /></div>
+												</div>
+											   {/if}
+											   
+											   {if $s.type eq 'content'}
+												<div class="group frm-control-group extra" id="{$s.var}_{$s.id}_group">
+													<label select="option" class="frm-control-label" for="">{$s.title}</label>
+													<div class="frm-controls">
+														<textarea name="{$s.var}[{$s.id}]" id="{$s.var}_{$s.id}" style="height:300px;">{$s.value}</textarea>
+														<span id="{$s.var}_{$s.id}_notice" class="desc">&nbsp;</span> </div>
+												</div>
+											   {/if}
+												{/foreach}
+											   {/if}
+												
+												
+											{/foreach}
+
+
+												
+																								
+										</div>
+									</div>
+								</div>
+								<div class="frm-ft">
+									<div class="frm-opr"> <a class="btnGreen" id="form-submit" href="javascript:;">内容提交</a>
+										<input type="hidden" name="mid" value="{$module.id}" />
+										<input type="hidden" name="_submit" id="_submit" value="submit" />
+										<input type="hidden" name="formhash" value="{$formhash}" />
+										<input type="hidden" name="ac" value="updatecontent" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+			<div class="sideBar">
+				<div class="catalogList">
+					<ul class="shaixuan">
+						<li class=""> <a href="wx_weizhan.php">返回</a> </li>
+						<!--
+						<li class=" subCatalogList "> <a href="">今天</a> </li>
+						<li class="  "> <a href="">星标咨询</a> </li>
+					    -->
+					</ul>
+					
+				</div>
+			</div>
+		<div class="clr"></div>
+	</div>
+</div>
+<!--container end-->
+
+<div style="height:100px"></div>
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end-->
+
+<div style='display:none'>
+	<div id='inline_content' style='padding:10px; background:#fff;'>
+		<p>选择图片:
+			<input type="file" id="file1" name="file1" style="width:300" value="">
+			<input type="hidden" id="fid" value="" />
+		</p>
+		<p>
+			<input type="button" id="beginupload" name="beginupload" value="开始上传" class="form-button" />
+		</p>
+		<p id="popdiv_msg"></p>
+	</div>
+</div>
+
+
+<script>
+var editor= new Array();
+$('textarea').each(function(i,n){
+	editor[i] = new UE.ui.Editor();
+    editor[i].render($(this).attr('id'));
+});
+
+$('#form-submit').click(function(){
+$('#form-profile').attr('method','post');
+$('#form-profile').attr('action','wx_weizhan.php');
+$('#form-profile').submit();
+});
+
+/*上传图片*/
+    $(".upload-btn").colorbox({inline:true, width:"50%",height:"400px"});
+	$(".upload-btn").click(function(){
+		$('#fid').val($(this).attr('data-id'));
+	   
+	});
+
+	$('#beginupload').click(function() {
+      if($('#file1').val()!=''){									 
+      $('#file1').upload('wx_weizhan.php?ac=upload', function(json) {
+		   if(json.err==0){
+			   $('#'+$('#fid').val()).val(json.filename);			
+			 $('#'+$('#fid').val()+'_img').attr('src',json.filename);
+			 $("#inline_content").colorbox.close();
+		   }else{
+			 $('#popdiv_msg').html(json.msg);  
+		   }
+      }, 'json');
+	  }else{
+			 $('#popdiv_msg').html('必须选择一个图文件');  
+	  }
+    });
+/*上传图片 end*/
+
+
+</script>
+</body>
+</html>
